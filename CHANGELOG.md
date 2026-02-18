@@ -1,6 +1,22 @@
-﻿# Changelog
+# Changelog
 
 All notable changes to this project will be documented in this file.
+
+## [0.3.0] - 2026-02-18
+### Added
+- Added `CONTRIBUTING.md` with branch workflow, commit guidance, and PR checklist.
+- Added MIT `LICENSE`.
+- Added GitHub templates:
+  - `.github/ISSUE_TEMPLATE.md`
+  - `.github/PULL_REQUEST_TEMPLATE.md`
+- Added central documentation guide: `docs/TOOLING_GUIDE.md`.
+
+### Changed
+- Rewrote root `README.md` with professional project overview, quick start, tools index, structure tree, roadmap, and safety/usage philosophy.
+- Standardized tool documentation format across `tools/*`.
+- Updated `tools/README.md` with current tool catalog and conventions.
+- Expanded `tools/cron-cleaner/README.md` with options, output interpretation, and limitations.
+- Expanded `tools/relay-health-checker/README.md` with options, examples, output interpretation, and limitations.
 
 ## [0.2.0] - 2026-02-18
 ### Added

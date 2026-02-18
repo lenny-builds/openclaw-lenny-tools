@@ -1,25 +1,79 @@
-﻿# openclaw-lenny-tools
+# openclaw-lenny-tools
 
-A dedicated local repository for packaging and shipping OpenClaw-compatible tools.
+A curated collection of small, practical OpenClaw-compatible CLI tools for diagnostics, housekeeping, and workflow safety.
 
-## Purpose
+This repository is designed as a **local-first toolbelt**: easy to clone, easy to run, easy to review.
 
-This repo is the canonical home for reusable tool assets (scripts, templates, and diagnostics) that are intended to be versioned, reviewed, and published.
+## Quick Start
 
-## Install / Use Philosophy
+```bash
+git clone https://github.com/<your-org>/openclaw-lenny-tools.git
+cd openclaw-lenny-tools
+```
 
-- Keep tools self-contained and documented.
-- Prefer simple, local-first workflows (`git clone`, inspect, run).
-- Add clear README docs per tool so usage is discoverable without external context.
-- Treat this repository as a shipping surface: changes should be intentional and traceable.
+Run a tool directly with Node:
 
-## Layout
+```bash
+node tools/cron-cleaner/cron-cleaner.js --mock
+```
 
-- `tools/` — individual tools, each in its own folder
-- `CHANGELOG.md` — human-readable release/change history
+## Tools Index
 
-## Tools
+| Tool | Purpose | Run Command |
+|---|---|---|
+| `cron-cleaner` | Detects noisy cron jobs and provides non-destructive cleanup guidance. | `node tools/cron-cleaner/cron-cleaner.js --mock` |
+| `relay-health-checker` | Evaluates Browser Relay readiness from saved `browser.status` / `browser.tabs` JSON inputs. | `node tools/relay-health-checker/relay-health-checker.js --mock` |
 
-- `tools/relay-health-checker` — validates relay status and tab connectivity snapshots.
-- `tools/cron-cleaner` — detects noisy cron jobs and suggests safe, non-destructive cleanup actions.
+## Repository Structure
 
+```text
+openclaw-lenny-tools/
+├── .github/
+│   ├── ISSUE_TEMPLATE.md
+│   └── PULL_REQUEST_TEMPLATE.md
+├── docs/
+│   └── TOOLING_GUIDE.md
+├── tools/
+│   ├── cron-cleaner/
+│   │   ├── cron-cleaner.js
+│   │   ├── README.md
+│   │   └── sample-jobs.json
+│   ├── relay-health-checker/
+│   │   ├── relay-health-checker.js
+│   │   ├── README.md
+│   │   ├── sample-status.json
+│   │   └── sample-tabs.json
+│   └── README.md
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+├── LICENSE
+└── README.md
+```
+
+## Usage Philosophy
+
+- **Safety first:** tools should default to advisory, non-destructive behavior.
+- **Transparency:** outputs should explain why a result was produced.
+- **Composability:** tools should be scriptable in local shells and CI.
+- **Minimal dependencies:** prefer plain Node scripts unless complexity requires more.
+
+## Safety Notes
+
+- Review suggested actions before applying operational changes.
+- Validate commands in staging when possible.
+- Treat all automation as assistive; keep a human in the loop for destructive actions.
+
+## Roadmap
+
+- Add direct OpenClaw tool/API integration where runtime support allows.
+- Expand tool coverage for monitoring and daily operations checks.
+- Introduce lightweight validation tests for tool inputs and outputs.
+- Provide examples for CI usage and scheduled checks.
+
+## Contributing
+
+Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for branch workflow, commit style, and PR checklist.
+
+## License
+
+MIT — see [LICENSE](LICENSE).

@@ -1,59 +1,59 @@
-# Relay Health Checker (V1)
+# relay-health-checker
 
-Small Node CLI to assess OpenClaw Browser Relay readiness using saved JSON outputs.
+`relay-health-checker` is a lightweight CLI that evaluates OpenClaw Browser Relay readiness using saved JSON payloads.
 
-> Why this exists: plain Node scripts cannot directly call OpenClaw tools by default.
-> This checker consumes exported `browser.status` and `browser.tabs` JSON (or mock data) for now.
+## What it does
 
-## Files
+- Loads `browser.status` and `browser.tabs` JSON exports (or mock data).
+- Checks whether the target profile appears in status data.
+- Detects X/Twitter tabs and relay-connection signals.
+- Prints a readable health report with recommendations.
+- Exits with machine-friendly status codes.
 
-- `relay-health-checker.js` — main CLI script
-- `sample-status.json` — sample status payload
-- `sample-tabs.json` — sample tabs payload
+## Inputs / Options
 
-## Usage
-
-### 1) Run with mock data
-
-```bash
-node relay-health-checker.js --mock
+```text
+--profile, -p <name>  Browser profile name (default: chrome)
+--status <path>       Path to browser.status JSON
+--tabs <path>         Path to browser.tabs JSON
+--mock                Use built-in mock payloads
+--help, -h            Show help
 ```
 
-### 2) Run with saved JSON files
+## Example commands
+
+From repository root:
 
 ```bash
-node relay-health-checker.js --profile chrome --status ./sample-status.json --tabs ./sample-tabs.json
+node tools/relay-health-checker/relay-health-checker.js --mock
 ```
-
-### 3) Help
 
 ```bash
-node relay-health-checker.js --help
+node tools/relay-health-checker/relay-health-checker.js --profile chrome --status tools/relay-health-checker/sample-status.json --tabs tools/relay-health-checker/sample-tabs.json
 ```
 
-## Expected checks
+```bash
+node tools/relay-health-checker/relay-health-checker.js --help
+```
 
-- `browser.status` present
-- profile appears in status payload
-- `browser.tabs` present
-- at least one X/Twitter tab found
-- at least one X/Twitter tab looks relay-connected
+## Output interpretation
 
-## Exit codes
+Overall states:
+
+- `HEALTHY` — all checks passed.
+- `DEGRADED` — some checks failed; relay may work inconsistently.
+- `UNHEALTHY` — multiple critical checks failed.
+
+Exit codes:
 
 - `0` = HEALTHY
 - `1` = DEGRADED
 - `2` = UNHEALTHY
-- `3` = script/runtime error
+- `3` = runtime/script error
 
-## Suggested integration flow (current)
+## Limitations
 
-1. Save JSON from OpenClaw tool calls:
-   - `browser.status` output -> `status.json`
-   - `browser.tabs` output -> `tabs.json`
-2. Run this checker against those files.
-3. Follow recommended fixes in output.
-
-## TODO
-
-- Direct OpenClaw API/tool integration once runtime bridge is available to plain Node CLIs.
+- Relies on exported JSON snapshots, not live OpenClaw tool calls.
+- Connection detection is heuristic (string matching for relay/attached signals).
+- Focused on X/Twitter tab checks for relay workflows.
+- Does not remediate issues automatically.

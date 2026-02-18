@@ -1,24 +1,39 @@
 # cron-cleaner
 
-Detect noisy cron jobs and generate non-destructive cleanup guidance.
+`cron-cleaner` analyzes cron job metadata and groups jobs into actionable categories without making any system changes.
 
-## Features
+## What it does
 
-- Reads cron jobs from a JSON file (`--input`) or built-in mock data (`--mock`)
-- Flags noisy jobs using these rules:
-  - `consecutiveErrors > 0`
-  - `lastStatus == "error"`
-  - legacy trading scan name match (`paper trade`, `market scan`, `wallet tracker`, case-insensitive)
-- Produces three output lists:
+- Reads a JSON list of cron jobs.
+- Flags jobs with noisy/error signals.
+- Detects legacy trading-scan naming patterns.
+- Produces advisory categories:
   - `SAFE_TO_DISABLE`
   - `REVIEW`
   - `CLEAN`
-- Outputs suggested actions in advisory mode (no destructive actions)
-- Supports text or JSON output (`--format text|json`)
+- Outputs either human-readable text or structured JSON.
 
-## Usage
+## Inputs / Options
 
-From repo root:
+```text
+--input <path>   Read cron jobs from a JSON file
+--mock           Use built-in mock dataset
+--format <type>  text|json (default: text)
+--help, -h       Show help
+```
+
+### Expected input schema
+
+A JSON array of job objects. Relevant fields:
+
+- `name` (string)
+- `schedule` (string, cron expression or descriptor)
+- `consecutiveErrors` (number)
+- `lastStatus` (`"ok"`, `"error"`, etc.)
+
+## Example commands
+
+From repository root:
 
 ```bash
 node tools/cron-cleaner/cron-cleaner.js --mock
@@ -32,17 +47,17 @@ node tools/cron-cleaner/cron-cleaner.js --input tools/cron-cleaner/sample-jobs.j
 node tools/cron-cleaner/cron-cleaner.js --input tools/cron-cleaner/sample-jobs.json --format json
 ```
 
-## Input format
+## Output interpretation
 
-`--input` should point to a JSON array of job objects, for example:
+- `SAFE_TO_DISABLE`: jobs matching legacy patterns; likely candidates for decommissioning.
+- `REVIEW`: jobs with error indicators that require human investigation.
+- `CLEAN`: no current signal indicating cleanup action.
 
-```json
-[
-  {
-    "name": "Nightly Backfill",
-    "schedule": "0 2 * * *",
-    "consecutiveErrors": 1,
-    "lastStatus": "ok"
-  }
-]
-```
+Suggested actions are advisory only and intended to support operator decisions.
+
+## Limitations
+
+- Uses simple heuristics; not a full scheduler health engine.
+- Cannot validate whether disabling a job is operationally safe.
+- Does not connect to cron services directly; input must be provided as JSON.
+- No automatic remediation is performed.

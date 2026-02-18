@@ -1,17 +1,17 @@
-﻿# tools/
+# Tools Directory
 
-This directory contains shippable tool packages.
+This folder contains production-facing tool packages.
 
-## Organization
+## Conventions
 
-- One tool per subdirectory.
-- Each tool should include its own README with:
-  - what it does
-  - requirements
-  - install steps
-  - usage examples
-- Keep tool-specific assets inside that tool folder.
+- One tool per subdirectory under `tools/`.
+- Each tool includes:
+  - executable script(s)
+  - local sample input/output fixtures (when useful)
+  - a `README.md` with purpose, options, examples, output interpretation, and limitations
+- Keep tools non-destructive by default.
 
-## Current tools
+## Available Tools
 
-- `relay-health-checker/` — relay diagnostics and health-check utility
+- [`cron-cleaner`](./cron-cleaner/README.md) — classify noisy cron jobs and suggest safe cleanup actions.
+- [`relay-health-checker`](./relay-health-checker/README.md) — assess Browser Relay readiness using exported status/tab JSON.
