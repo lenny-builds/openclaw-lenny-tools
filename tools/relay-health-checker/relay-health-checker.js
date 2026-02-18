@@ -11,29 +11,81 @@
 const fs = require('fs');
 const path = require('path');
 
+function usage() {
+  console.log(`relay-health-checker - evaluate OpenClaw Browser Relay readiness from JSON snapshots\n
+Usage:
+  node tools/relay-health-checker/relay-health-checker.js [--profile <name>] [--status <status.json>] [--tabs <tabs.json>] [--format text|json]
+  node tools/relay-health-checker/relay-health-checker.js --mock [--profile <name>] [--format text|json]
+
+Options:
+  --profile, -p <name>  Browser profile name (default: chrome)
+  --status <path>       Path to browser.status JSON
+  --tabs <path>         Path to browser.tabs JSON
+  --mock                Use built-in mock payloads
+  --format <type>       Output format: text|json (default: text)
+  --help, -h            Show this help message
+`);
+}
+
 function parseArgs(argv) {
   const args = {
     profile: 'chrome',
     statusPath: null,
     tabsPath: null,
     mock: false,
+    format: 'text',
     help: false,
   };
 
-  for (let i = 2; i < argv.length; i++) {
+  for (let i = 0; i < argv.length; i += 1) {
     const a = argv[i];
-    if (a === '--help' || a === '-h') args.help = true;
-    else if (a === '--mock') args.mock = true;
-    else if (a === '--profile' || a === '-p') args.profile = argv[++i] || 'chrome';
-    else if (a === '--status') args.statusPath = argv[++i] || null;
-    else if (a === '--tabs') args.tabsPath = argv[++i] || null;
+
+    if (a === '--help' || a === '-h') {
+      args.help = true;
+    } else if (a === '--mock') {
+      args.mock = true;
+    } else if (a === '--profile' || a === '-p') {
+      const value = argv[i + 1];
+      if (!value || value.startsWith('-')) {
+        throw new Error('Missing value for --profile.');
+      }
+      args.profile = value;
+      i += 1;
+    } else if (a === '--status') {
+      const value = argv[i + 1];
+      if (!value || value.startsWith('-')) {
+        throw new Error('Missing value for --status.');
+      }
+      args.statusPath = value;
+      i += 1;
+    } else if (a === '--tabs') {
+      const value = argv[i + 1];
+      if (!value || value.startsWith('-')) {
+        throw new Error('Missing value for --tabs.');
+      }
+      args.tabsPath = value;
+      i += 1;
+    } else if (a === '--format') {
+      const value = (argv[i + 1] || '').toLowerCase();
+      if (!value || value.startsWith('-')) {
+        throw new Error('Missing value for --format.');
+      }
+      args.format = value;
+      i += 1;
+    } else {
+      throw new Error(`Unknown argument: ${a}`);
+    }
+  }
+
+  if (!['text', 'json'].includes(args.format)) {
+    throw new Error(`Invalid --format value: ${args.format}. Use text or json.`);
+  }
+
+  if (args.mock && (args.statusPath || args.tabsPath)) {
+    throw new Error('Use either --mock or --status/--tabs inputs, not both.');
   }
 
   return args;
-}
-
-function usage() {
-  console.log(`Relay Health Checker\n\nUsage:\n  node relay-health-checker.js [--profile chrome] [--status ./status.json] [--tabs ./tabs.json]\n  node relay-health-checker.js --mock\n\nOptions:\n  --profile, -p   Browser profile name (default: chrome)\n  --status        Path to browser.status JSON\n  --tabs          Path to browser.tabs JSON\n  --mock          Use built-in mock data\n  --help, -h      Show help\n`);
 }
 
 function readJson(filePath, label) {
@@ -109,18 +161,10 @@ function checkHealth({ profile, status, tabs }) {
       : 'No connected X tab detected.',
   });
 
-  if (!status) {
-    recommendations.push('Provide --status JSON from browser.status output.');
-  }
-  if (!tabs) {
-    recommendations.push('Provide --tabs JSON from browser.tabs output.');
-  }
-  if (!profileSeen) {
-    recommendations.push(`Verify profile '${profile}' is started (try profile='chrome').`);
-  }
-  if (xTabs.length === 0) {
-    recommendations.push('Open x.com in the browser profile and keep the tab active.');
-  }
+  if (!status) recommendations.push('Provide --status JSON from browser.status output.');
+  if (!tabs) recommendations.push('Provide --tabs JSON from browser.tabs output.');
+  if (!profileSeen) recommendations.push(`Verify profile '${profile}' is started (try profile='chrome').`);
+  if (xTabs.length === 0) recommendations.push('Open x.com in the browser profile and keep the tab active.');
   if (xTabs.length > 0 && connectedXTabs.length === 0) {
     recommendations.push('Attach relay to the X tab (click OpenClaw Browser Relay toolbar icon until badge is ON).');
   }
@@ -135,18 +179,19 @@ function checkHealth({ profile, status, tabs }) {
   return { overall, checks, recommendations };
 }
 
-function printReport(report) {
-  console.log(`\nRelay Health: ${report.overall}`);
-  console.log('----------------------------------------');
+function formatText(report) {
+  const lines = [];
+  lines.push(`Relay Health: ${report.overall}`);
+  lines.push('----------------------------------------');
   report.checks.forEach((c) => {
-    console.log(`${c.ok ? '✅' : '❌'} ${c.name} — ${c.detail}`);
+    lines.push(`${c.ok ? '✅' : '❌'} ${c.name} — ${c.detail}`);
   });
-
-  console.log('\nSuggested fixes:');
+  lines.push('');
+  lines.push('Suggested fixes:');
   report.recommendations.forEach((r, i) => {
-    console.log(`${i + 1}. ${r}`);
+    lines.push(`${i + 1}. ${r}`);
   });
-  console.log('');
+  return lines.join('\n');
 }
 
 function getMockData(profile) {
@@ -175,14 +220,19 @@ function getMockData(profile) {
   };
 }
 
-(function main() {
-  const args = parseArgs(process.argv);
-  if (args.help) {
-    usage();
-    process.exit(0);
-  }
+function resolveExitCode(report) {
+  return report.overall === 'HEALTHY' ? 0 : report.overall === 'DEGRADED' ? 1 : 2;
+}
 
+(function main() {
   try {
+    const args = parseArgs(process.argv.slice(2));
+
+    if (args.help) {
+      usage();
+      process.exit(0);
+    }
+
     let status = null;
     let tabs = null;
 
@@ -191,8 +241,8 @@ function getMockData(profile) {
       status = mock.status;
       tabs = mock.tabs;
     } else {
-      if (args.statusPath) status = readJson(path.resolve(args.statusPath), 'status');
-      if (args.tabsPath) tabs = readJson(path.resolve(args.tabsPath), 'tabs');
+      if (args.statusPath) status = readJson(path.resolve(process.cwd(), args.statusPath), 'status');
+      if (args.tabsPath) tabs = readJson(path.resolve(process.cwd(), args.tabsPath), 'tabs');
     }
 
     const report = checkHealth({
@@ -201,12 +251,17 @@ function getMockData(profile) {
       tabs,
     });
 
-    printReport(report);
+    if (args.format === 'json') {
+      console.log(JSON.stringify(report, null, 2));
+    } else {
+      console.log(formatText(report));
+      console.log('');
+    }
 
-    const exitCode = report.overall === 'HEALTHY' ? 0 : report.overall === 'DEGRADED' ? 1 : 2;
-    process.exit(exitCode);
+    process.exit(resolveExitCode(report));
   } catch (err) {
     console.error(`Error: ${err.message}`);
-    process.exit(3);
+    console.error('Use --help for usage details.');
+    process.exit(1);
   }
 })();
