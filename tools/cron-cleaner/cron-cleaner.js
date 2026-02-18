@@ -22,7 +22,7 @@ Options:
   --input <path>   Read cron jobs from JSON file
   --mock           Use built-in mock dataset
   --format <type>  Output format: text|json (default: text)
-  --help           Show this help message
+  --help, -h       Show this help message
 `);
 }
 

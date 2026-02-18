@@ -16,11 +16,17 @@
 ## Inputs / Options
 
 ```text
---input <path>   Read cron jobs from a JSON file
---mock           Use built-in mock dataset
---format <type>  text|json (default: text)
---help, -h       Show help
+--mock                Use built-in mock dataset
+--input <path>        Read cron jobs from a JSON file
+--format <type>       Output format: text|json (default: text)
+--help, -h            Show help
 ```
+
+CLI contract notes:
+
+- Unknown arguments fail fast with a non-zero exit.
+- Invalid or missing option values fail fast with a non-zero exit.
+- `--help` always exits `0`.
 
 ### Expected input schema
 
@@ -36,11 +42,11 @@ A JSON array of job objects. Relevant fields:
 From repository root:
 
 ```bash
-node tools/cron-cleaner/cron-cleaner.js --mock
+node tools/cron-cleaner/cron-cleaner.js --help
 ```
 
 ```bash
-node tools/cron-cleaner/cron-cleaner.js --input tools/cron-cleaner/sample-jobs.json
+node tools/cron-cleaner/cron-cleaner.js --mock
 ```
 
 ```bash
