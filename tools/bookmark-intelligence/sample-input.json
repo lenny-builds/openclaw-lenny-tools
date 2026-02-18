@@ -1,0 +1,72 @@
+[
+  {
+    "url": "https://martinfowler.com/articles/micro-frontends.html",
+    "title": "Micro Frontends",
+    "notes": "Architecture patterns for scaling frontend teams",
+    "tags": ["architecture", "frontend", "scaling"],
+    "savedAt": "2026-02-16T09:12:00Z"
+  },
+  {
+    "url": "https://vercel.com/blog/ai-sdk-5",
+    "title": "AI SDK 5 release notes",
+    "notes": "Tool calling and streaming updates",
+    "tags": ["ai", "sdk", "release"],
+    "savedAt": "2026-02-16T14:35:00Z"
+  },
+  {
+    "url": "https://platform.openai.com/docs/guides/function-calling",
+    "title": "Function calling guide",
+    "notes": "Patterns for robust tool orchestration",
+    "tags": ["ai", "tooling", "backend"],
+    "savedAt": "2026-02-17T08:20:00Z"
+  },
+  {
+    "url": "https://12factor.net/",
+    "title": "The Twelve-Factor App",
+    "notes": "Config and deployment hygiene",
+    "tags": ["devops", "architecture", "ops"],
+    "savedAt": "2026-02-17T10:40:00Z"
+  },
+  {
+    "url": "https://linear.app/blog/product-roadmap-template",
+    "title": "Product roadmap template",
+    "notes": "Quarterly planning artifacts",
+    "tags": ["product", "planning", "strategy"],
+    "savedAt": "2026-02-17T12:05:00Z"
+  },
+  {
+    "url": "https://stripe.com/resources/more/churn-rate",
+    "title": "How to calculate churn rate",
+    "notes": "Retention KPI references",
+    "tags": ["metrics", "saas", "growth"],
+    "savedAt": "2026-02-17T15:30:00Z"
+  },
+  {
+    "url": "https://www.atlassian.com/agile/scrum/sprint-retrospective",
+    "title": "Sprint retrospective techniques",
+    "notes": "Facilitation checklist for team health",
+    "tags": ["agile", "team", "process"],
+    "savedAt": "2026-02-18T09:00:00Z"
+  },
+  {
+    "url": "https://sre.google/sre-book/monitoring-distributed-systems/",
+    "title": "Monitoring distributed systems",
+    "notes": "Alerting and observability principles",
+    "tags": ["sre", "monitoring", "ops"],
+    "savedAt": "2026-02-18T11:18:00Z"
+  },
+  {
+    "url": "https://www.nngroup.com/articles/ux-research-cheat-sheet/",
+    "title": "UX research cheat sheet",
+    "notes": "Interview prompts and synthesis ideas",
+    "tags": ["ux", "research", "product"],
+    "savedAt": "2026-02-18T13:02:00Z"
+  },
+  {
+    "url": "https://news.ycombinator.com/item?id=42999999",
+    "title": "Discussion: practical AI evals",
+    "notes": "Examples of evaluation harnesses",
+    "tags": ["ai", "evals", "engineering"],
+    "savedAt": "2026-02-18T13:55:00Z"
+  }
+]

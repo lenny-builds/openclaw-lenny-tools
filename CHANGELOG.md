@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.0] - 2026-02-18
+### Added
+- Added `tools/bookmark-intelligence` (Tool #3).
+- Implemented `bookmark-intelligence.js` CLI with `--input`, `--format text|json`, `--top`, and `--help` options.
+- Added keyword-based topic clustering, repeated theme extraction, 5-bullet weekly digest generation, and suggested actions output.
+- Added tool documentation (`tools/bookmark-intelligence/README.md`), sample input (`sample-input.json`), and placeholder config template (`.env.example`).
+
+### Changed
+- Updated root `README.md` tools index and repository tree to include `bookmark-intelligence`.
+
 ## [0.3.0] - 2026-02-18
 ### Added
 - Added `CONTRIBUTING.md` with branch workflow, commit guidance, and PR checklist.
