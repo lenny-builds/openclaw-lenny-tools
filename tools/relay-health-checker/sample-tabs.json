@@ -1,0 +1,15 @@
+{
+  "tabs": [
+    {
+      "id": "tab-001",
+      "title": "Home / X",
+      "url": "https://x.com/home",
+      "relayConnected": true
+    },
+    {
+      "id": "tab-002",
+      "title": "GitHub",
+      "url": "https://github.com"
+    }
+  ]
+}
