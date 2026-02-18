@@ -24,6 +24,7 @@ node tools/cron-cleaner/cron-cleaner.js --mock
 
 | Tool | Purpose | Run Command |
 |---|---|---|
+| `bookmark-intelligence` | Clusters saved links into themes and generates a weekly digest with suggested actions. | `node tools/bookmark-intelligence/bookmark-intelligence.js --input tools/bookmark-intelligence/sample-input.json --top 8` |
 | `cron-cleaner` | Detects noisy cron jobs and provides non-destructive cleanup guidance. | `node tools/cron-cleaner/cron-cleaner.js --mock` |
 | `relay-health-checker` | Evaluates Browser Relay readiness from saved `browser.status` / `browser.tabs` JSON inputs. | `node tools/relay-health-checker/relay-health-checker.js --mock` |
 | `session-handoff` | Turns local JSON notes/tasks/context into a concise operator handoff brief. | `node tools/session-handoff/session-handoff.js --input tools/session-handoff/sample-handoff-input.json --format text` |
@@ -38,6 +39,11 @@ openclaw-lenny-tools/
 ├── docs/
 │   └── TOOLING_GUIDE.md
 ├── tools/
+│   ├── bookmark-intelligence/
+│   │   ├── bookmark-intelligence.js
+│   │   ├── README.md
+│   │   ├── .env.example
+│   │   └── sample-input.json
 │   ├── cron-cleaner/
 │   │   ├── cron-cleaner.js
 │   │   ├── README.md
