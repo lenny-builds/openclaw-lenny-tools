@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Paper Trade Scanner",
+    "schedule": "*/5 * * * *",
+    "consecutiveErrors": 4,
+    "lastStatus": "error"
+  },
+  {
+    "name": "Market Scan Alerts",
+    "schedule": "*/10 * * * *",
+    "consecutiveErrors": 0,
+    "lastStatus": "ok"
+  },
+  {
+    "name": "Wallet Tracker Refresh",
+    "schedule": "*/15 * * * *",
+    "consecutiveErrors": 0,
+    "lastStatus": "ok"
+  },
+  {
+    "name": "Invoice Sync",
+    "schedule": "*/30 * * * *",
+    "consecutiveErrors": 2,
+    "lastStatus": "ok"
+  },
+  {
+    "name": "Portfolio Digest",
+    "schedule": "0 8 * * *",
+    "consecutiveErrors": 0,
+    "lastStatus": "ok"
+  },
+  {
+    "name": "Daily Reconciliation",
+    "schedule": "0 3 * * *",
+    "consecutiveErrors": 0,
+    "lastStatus": "error"
+  }
+]

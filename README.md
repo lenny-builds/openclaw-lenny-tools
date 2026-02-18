@@ -18,3 +18,8 @@ This repo is the canonical home for reusable tool assets (scripts, templates, an
 - `tools/` — individual tools, each in its own folder
 - `CHANGELOG.md` — human-readable release/change history
 
+## Tools
+
+- `tools/relay-health-checker` — validates relay status and tab connectivity snapshots.
+- `tools/cron-cleaner` — detects noisy cron jobs and suggests safe, non-destructive cleanup actions.
+
