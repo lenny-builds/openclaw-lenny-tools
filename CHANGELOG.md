@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.4.0] - 2026-02-18
+### Added
+- Added `tools/session-handoff` (Tool #4).
+- Implemented `session-handoff.js` CLI with `--input`, `--format text|json`, and `--help`.
+- Added handoff brief output sections: current status, blockers, next 3 actions, and ready-to-send update text.
+- Added tool docs and fixtures:
+  - `tools/session-handoff/README.md`
+  - `tools/session-handoff/.env.example`
+  - `tools/session-handoff/sample-handoff-input.json`
+- Added PR validation notes file: `docs/pr/tool4-session-handoff.md`.
+
+### Changed
+- Updated root `README.md` tools index and repository structure tree for `session-handoff`.
+- Updated `tools/README.md` tool catalog.
+
 ## [0.3.0] - 2026-02-18
 ### Added
 - Added `CONTRIBUTING.md` with branch workflow, commit guidance, and PR checklist.

@@ -15,3 +15,4 @@ This folder contains production-facing tool packages.
 
 - [`cron-cleaner`](./cron-cleaner/README.md) — classify noisy cron jobs and suggest safe cleanup actions.
 - [`relay-health-checker`](./relay-health-checker/README.md) — assess Browser Relay readiness using exported status/tab JSON.
+- [`session-handoff`](./session-handoff/README.md) — generate concise operator handoff briefs from local JSON notes/tasks/context.
