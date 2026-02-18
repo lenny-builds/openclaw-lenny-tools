@@ -1,5 +1,8 @@
 # openclaw-lenny-tools
 
+[![CI](https://img.shields.io/badge/CI-pending-lightgrey)](https://github.com/<your-org>/openclaw-lenny-tools/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+
 A curated collection of small, practical OpenClaw-compatible CLI tools for diagnostics, housekeeping, and workflow safety.
 
 This repository is designed as a **local-first toolbelt**: easy to clone, easy to run, easy to review.

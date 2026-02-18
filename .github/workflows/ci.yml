@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - chore/**
+      - feat/**
+  pull_request:
+
+jobs:
+  cli-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Syntax checks
+        run: |
+          node --check tools/cron-cleaner/cron-cleaner.js
+          node --check tools/relay-health-checker/relay-health-checker.js
+
+      - name: Help checks
+        run: |
+          node tools/cron-cleaner/cron-cleaner.js --help
+          node tools/relay-health-checker/relay-health-checker.js --help
+
+      - name: Mock smoke checks
+        run: |
+          node tools/cron-cleaner/cron-cleaner.js --mock
+          node tools/relay-health-checker/relay-health-checker.js --mock

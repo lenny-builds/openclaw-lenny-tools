@@ -1,0 +1,14 @@
+{
+  "name": "openclaw-lenny-tools",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Small OpenClaw-compatible CLI tools for diagnostics and housekeeping.",
+  "license": "MIT",
+  "scripts": {
+    "smoke:cron": "node tools/cron-cleaner/cron-cleaner.js --mock",
+    "smoke:relay": "node tools/relay-health-checker/relay-health-checker.js --mock",
+    "smoke": "npm run smoke:cron && npm run smoke:relay",
+    "check:syntax": "node --check tools/cron-cleaner/cron-cleaner.js && node --check tools/relay-health-checker/relay-health-checker.js",
+    "check": "npm run check:syntax && node tools/cron-cleaner/cron-cleaner.js --help && node tools/relay-health-checker/relay-health-checker.js --help && npm run smoke"
+  }
+}
